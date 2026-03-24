@@ -3,6 +3,7 @@ Main Streamlit Application for the ArthaDrishti portfolio studio.
 """
 import warnings
 from datetime import datetime, timedelta
+import uuid
 
 import numpy as np
 import pandas as pd
@@ -363,17 +364,26 @@ for key, default_value in {
 
 
 def render_chart_pairs(charts):
+    render_id = uuid.uuid4().hex
     for index in range(0, len(charts), 2):
         col1, col2 = st.columns(2)
         title1, fig1 = charts[index]
         with col1:
             st.markdown(f"#### {title1}")
-            st.plotly_chart(fig1, use_container_width=True)
+            st.plotly_chart(
+                fig1,
+                use_container_width=True,
+                key=f"{render_id}-{index}-{title1}",
+            )
         if index + 1 < len(charts):
             title2, fig2 = charts[index + 1]
             with col2:
                 st.markdown(f"#### {title2}")
-                st.plotly_chart(fig2, use_container_width=True)
+                st.plotly_chart(
+                    fig2,
+                    use_container_width=True,
+                    key=f"{render_id}-{index + 1}-{title2}",
+                )
 
 
 def build_analysis_bundle(
