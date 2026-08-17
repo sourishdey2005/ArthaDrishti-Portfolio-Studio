@@ -279,7 +279,7 @@ class Visualizer:
         return self._update_layout(fig, f'Monthly Returns Heatmap: {asset}', 'Month', 'Year')
 
     def plot_annual_returns_bar(self, returns_df):
-        annual = returns_df.resample('Y').apply(lambda x: (1 + x).prod() - 1)
+        annual = returns_df.resample('YE').apply(lambda x: (1 + x).prod() - 1)
         fig = go.Figure()
         for column in annual.columns:
             fig.add_trace(go.Bar(x=annual.index.year, y=annual[column] * 100, name=column))
@@ -859,7 +859,7 @@ class Visualizer:
         return self._update_layout(fig, f'Close vs Volume: {ticker}', 'Volume', 'Close Price')
 
     def plot_quarterly_returns_bar(self, returns_df):
-        quarterly = returns_df.resample('Q').apply(lambda values: (1 + values).prod() - 1) * 100
+        quarterly = returns_df.resample('QE').apply(lambda values: (1 + values).prod() - 1) * 100
         quarter_labels = quarterly.index.to_period('Q').astype(str)
         fig = go.Figure()
         for column in quarterly.columns:
